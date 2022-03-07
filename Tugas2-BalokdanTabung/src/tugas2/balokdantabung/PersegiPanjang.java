@@ -26,7 +26,7 @@ public class PersegiPanjang implements MenghitungBidang{
     }
     
     public double getL(){
-        return this.p;
+        return this.l;
     }
     
     public void setL(double l){

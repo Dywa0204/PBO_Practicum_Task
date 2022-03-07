@@ -49,10 +49,10 @@ public class Main {
                     );
                 break;
                 case 2 :
-                    System.out.print("\nInput Jari-Jari   : ");
-                    r = input.nextInt();
-                    System.out.print("Input Tinggi      : ");
+                    System.out.print("\nInput Tinggi      : ");
                     t = input.nextInt();
+                    System.out.print("Input Jari-Jari   : ");
+                    r = input.nextInt();
 
                     Tabung tabung = new Tabung(r, t);
 

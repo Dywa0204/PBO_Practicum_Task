@@ -32,6 +32,6 @@ public class Balok extends PersegiPanjang implements MenghitungRuang{
     
     @Override
     public double cariLuasPermukaan(){
-        return (super.cariKeliling() + (2 * super.getL()) + (2 * super.getP()) );
+        return (2 * (super.cariLuas() + (super.getP() * this.t) + (super.getL() * this.t)));
     }
 }
