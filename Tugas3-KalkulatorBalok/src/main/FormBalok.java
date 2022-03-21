@@ -84,18 +84,22 @@ public class FormBalok extends JFrame{
         
         btnHitung.addActionListener((ActionEvent e) -> {
             double p = 0, l = 0, t = 0;
+            boolean error = false;
             try{
                 p = Double.parseDouble(tfPanjang.getText());
                 l = Double.parseDouble(tfLebar.getText());
                 t = Double.parseDouble(tfTinggi.getText());
             }catch(NumberFormatException err){
                 JOptionPane.showMessageDialog(null, "Error!!\n" + err.getMessage());
+                error = true;
             }finally{
-                Balok balok = new Balok(p, l, t);
-                lLuas.setText("Luas : " + balok.cariLuas());
-                lKeliling.setText("Keliling : " + balok.cariKeliling());
-                lVolume.setText("Volume : " + balok.cariVolume());
-                lLuasPermukaan.setText("Luas Permukaan : " + balok.cariLuasPermukaan());
+                if(!error){
+                    Balok balok = new Balok(p, l, t);
+                    lLuas.setText("Luas : " + balok.cariLuas());
+                    lKeliling.setText("Keliling : " + balok.cariKeliling());
+                    lVolume.setText("Volume : " + balok.cariVolume());
+                    lLuasPermukaan.setText("Luas Permukaan : " + balok.cariLuasPermukaan());
+                }
             }
         });
         
