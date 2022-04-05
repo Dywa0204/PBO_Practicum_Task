@@ -18,7 +18,7 @@ import perlombaan.*;
 public class PesertaLomba implements LombaSurat, LombaAnimasi{
     String nama, asalSekolah;
     int kategori;
-    double nilai1, nilai2, nilai, nilai4, nilaiAkhir;
+    double nilai1, nilai2, nilai3, nilai4, nilaiAkhir;
     
     public PesertaLomba(String nama, String asalSekolah, int kategori){
         this.nama = nama;
