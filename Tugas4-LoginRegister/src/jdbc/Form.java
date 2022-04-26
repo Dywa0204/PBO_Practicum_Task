@@ -10,6 +10,7 @@ package jdbc;
  * @author Dywa Pratama
  */
 
+import java.awt.Font;
 import java.awt.HeadlessException;
 import javax.swing.*;
 import java.awt.event.*;
@@ -37,7 +38,7 @@ public class Form extends JFrame{
     
     public Form(){
         setTitle("Form Login dan Register");
-        setSize(500, 400);
+        setSize(560, 480);
         setLayout(null);
         
         add(lTitle);
@@ -52,23 +53,24 @@ public class Form extends JFrame{
         add(btnLogin);
         add(btnReg);
         
-        lTitle.setBounds(160, 50, 140, 15);
+        lTitle.setFont(new Font("Verdana", Font.PLAIN, 24));
+        lTitle.setBounds(100, 50, 340, 30);
         
-        lUsernameLogin.setBounds(60, 100, 80, 20);
-        lPasswordLogin.setBounds(60, 180, 80, 20);
+        lUsernameLogin.setBounds(60, 120, 80, 20);
+        lPasswordLogin.setBounds(60, 200, 80, 20);
         
-        tfUsernameLogin.setBounds(60, 130, 140, 30);
-        tfPasswordLogin.setBounds(60, 210, 140, 30);
+        tfUsernameLogin.setBounds(60, 150, 150, 30);
+        tfPasswordLogin.setBounds(60, 230, 150, 30);
         
-        btnLogin.setBounds(80, 280, 100, 20);
+        btnLogin.setBounds(80, 300, 100, 20);
         
-        lUsernameReg.setBounds(290, 100, 80, 20);
-        lPasswordReg.setBounds(290, 180, 80, 20);
+        lUsernameReg.setBounds(290, 120, 80, 20);
+        lPasswordReg.setBounds(290, 200, 80, 20);
         
-        tfUsernameReg.setBounds(290, 130, 140, 30);
-        tfPasswordReg.setBounds(290, 210, 140, 30);
+        tfUsernameReg.setBounds(290, 150, 150, 30);
+        tfPasswordReg.setBounds(290, 230, 150, 30);
         
-        btnReg.setBounds(310, 280, 100, 20);
+        btnReg.setBounds(310, 300, 100, 20);
         
         btnReg.addActionListener((ActionEvent arg0) -> {
             try {
