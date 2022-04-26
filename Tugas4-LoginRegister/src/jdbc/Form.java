@@ -93,20 +93,25 @@ public class Form extends JFrame{
         
         btnLogin.addActionListener((ActionEvent arg0) -> {
             try {
-                String query = "SELECT `username`, `password` FROM `users` WHERE `username` = '" + getUsernameLogin() + "'";
-                
-                connector.statement = connector.koneksi.createStatement();
-                ResultSet resultSet = connector.statement.executeQuery(query);
-                
-                if(resultSet.next()){
-                    if(resultSet.getString("password").equals(getPasswordLogin())){
-                        JOptionPane.showMessageDialog(null,"Berhasil Login");
+                if(!getUsernameLogin().isEmpty() & !getPasswordLogin().isEmpty()){
+                    String query = "SELECT `username`, `password` FROM `users` WHERE `username` = '" + getUsernameLogin() + "'";
+
+                    connector.statement = connector.koneksi.createStatement();
+                    ResultSet resultSet = connector.statement.executeQuery(query);
+
+                    if(resultSet.next()){
+                        if(resultSet.getString("password").equals(getPasswordLogin())){
+                            JOptionPane.showMessageDialog(null,"Berhasil Login");
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Password Salah");
+                        }
                     }else{
-                        JOptionPane.showMessageDialog(null,"Password Salah");
+                        JOptionPane.showMessageDialog(null,"Username Belum Terdaftar");
                     }
                 }else{
-                    JOptionPane.showMessageDialog(null,"Username Belum Terdaftar");
+                    JOptionPane.showMessageDialog(null,"Username dan Password Tidak Boleh Kosong");
                 }
+                
             } catch (HeadlessException | SQLException ex){
                 JOptionPane.showMessageDialog(null,"Terjadi Kesalahan");
             }
