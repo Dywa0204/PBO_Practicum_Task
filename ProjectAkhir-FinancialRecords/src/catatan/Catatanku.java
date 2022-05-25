@@ -17,11 +17,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import style.ColorDoc;
-import style.FontDoc;
+import assets.ColorDoc;
+import assets.FontDoc;
 
 /**
  *
@@ -29,9 +28,9 @@ import style.FontDoc;
  */
 public final class Catatanku extends JPanel{
     ModelCatatan model;
-    boolean isSelected = false;
-    int id;
-    int idTabung;
+    boolean isCatatanSelected = false;
+    int idCatatan;
+    int idTabungan;
     
     ColorDoc color = new ColorDoc();
     FontDoc font = new FontDoc();
@@ -41,20 +40,22 @@ public final class Catatanku extends JPanel{
     JLabel lNamaTabungan = new JLabel();
     JTextField tfNamaTabungan = new JTextField();
     
-    Image imageEdit = new ImageIcon(this.getClass().getResource("edit.png")).getImage();
+    Image imageEdit = new ImageIcon(this.getClass().getResource("../assets/images/edit.png")).getImage();
     JButton btnEdit = new JButton(new ImageIcon(imageEdit));
-    Image imageNike = new ImageIcon(this.getClass().getResource("nike.png")).getImage();
-    JButton btnNike = new JButton(new ImageIcon(imageNike));
+    Image imageCheckList = new ImageIcon(this.getClass().getResource("../assets/images/nike.png")).getImage();
+    JButton btnChecklist = new JButton(new ImageIcon(imageCheckList));
     
     JButton btnAddNew = new JButton();
     JLabel lAddNew = new JLabel("Tambah Catatan");
-    Image imagePlus = new ImageIcon(this.getClass().getResource("plus.png")).getImage();
+    Image imagePlus = new ImageIcon(this.getClass().getResource("../assets/images/plus.png")).getImage();
     JLabel lAddNewIcon = new JLabel(new ImageIcon(imagePlus));
     
+    String kolom[] = {"ID", "TANGGAL", "TIPE", "JUMLAH", "KETERANGAN"};
+    JTableHeader header;
     JTable tblCatatan;
     DefaultTableModel tblModel;
-    String kolom[] = {"ID", "TANGGAL", "TIPE", "JUMLAH", "KETERANGAN"};
     JScrollPane scrollPane;
+    ListSelectionModel selectionModel;
     
     JLabel lSaldo = new JLabel("Saldoku : ");
     
@@ -63,8 +64,8 @@ public final class Catatanku extends JPanel{
     JButton btnHapusCatatan = new JButton("Hapus Catatan");
     JButton btnHapusTabungan = new JButton("Hapus Tabungan");
     
-    public Catatanku(ViewCatatan view, String username, String fullname, int idTabungan){
-        this.idTabung = idTabungan;
+    public Catatanku(ViewCatatan view, int idTabungan, String username, String fullname){
+        this.idTabungan = idTabungan;
         model = new ModelCatatan(view, this);
         tblModel = new DefaultTableModel(model.getDaftarCatatan(idTabungan), kolom);
         tblCatatan = new JTable(tblModel);
@@ -78,7 +79,7 @@ public final class Catatanku extends JPanel{
         add(lNamaTabungan);
         add(tfNamaTabungan);
         add(btnEdit);
-        add(btnNike);
+        add(btnChecklist);
         add(btnAddNew);
         add(scrollPane);
         add(lSaldo);
@@ -104,11 +105,11 @@ public final class Catatanku extends JPanel{
         btnEdit.setBorder(new EmptyBorder(0, 0, 0, 0));
         btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        btnNike.setBounds((getTextWidth() + 50), 48, 25, 25);
-        btnNike.setBackground(null);
-        btnNike.setBorder(new EmptyBorder(0, 0, 0, 0));
-        btnNike.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnNike.setVisible(false);
+        btnChecklist.setBounds((getTextWidth() + 50), 48, 25, 25);
+        btnChecklist.setBackground(null);
+        btnChecklist.setBorder(new EmptyBorder(0, 0, 0, 0));
+        btnChecklist.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnChecklist.setVisible(false);
         
         btnAddNew.setBounds(696, 25, 225, 40);
         btnAddNew.setBackground(color.btnSubmit);
@@ -123,7 +124,7 @@ public final class Catatanku extends JPanel{
         lAddNew.setForeground(color.textWhite);
         lAddNewIcon.setBounds(15, 10, 21, 21);
         
-        JTableHeader header = tblCatatan.getTableHeader();
+        header = tblCatatan.getTableHeader();
         header.setDefaultRenderer(new TableHeaderRenderer(tblCatatan));
         tblCatatan.getTableHeader().setBackground(Color.white);
         tblCatatan.setShowVerticalLines(false);
@@ -135,6 +136,8 @@ public final class Catatanku extends JPanel{
         tblCatatan.setFont(font.inter.deriveFont(Font.BOLD, 14f));
         tblCatatan.removeColumn(tblCatatan.getColumnModel().getColumn(0));
         tblCatatan.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        tblCatatan.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        selectionModel = tblCatatan.getSelectionModel();
         
         scrollPane.setBounds(20, 95, 900, 275);
         scrollPane.getViewport().setBackground(Color.WHITE);
@@ -172,56 +175,57 @@ public final class Catatanku extends JPanel{
         btnBack.setForeground(Color.white);
         
         btnHapusTabungan.addActionListener((ActionEvent arg0) -> {
-            model.hapusTabungan(idTabungan);
-            ViewTabungan dashboard = new ViewTabungan(username, fullname);
-            view.setVisible(false);
+            int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus tabungan ini?");
+            if(confirm == 0){
+                model.hapusTabungan(idTabungan);
+                ViewTabungan dashboard = new ViewTabungan(username, fullname);
+                view.setVisible(false);
+            }
         });
         
         btnAddNew.addActionListener((ActionEvent arg0) -> {
-            ViewFormCatatan form = new ViewFormCatatan(view, username, fullname, idTabungan, true);
+            ViewFormCatatan form = new ViewFormCatatan(view, true, idTabungan, username, fullname);
         });
         
         btnEdit.addActionListener((ActionEvent arg0) -> {
             lNamaTabungan.setVisible(false);
             btnEdit.setVisible(false);
             tfNamaTabungan.setVisible(true);
-            btnNike.setVisible(true);
+            btnChecklist.setVisible(true);
         });
         
-        btnNike.addActionListener((ActionEvent arg0) -> {
+        btnChecklist.addActionListener((ActionEvent arg0) -> {
             ControllerCatatan controller = new ControllerCatatan(view, this);
             if(controller.setNamaTabungan(tfNamaTabungan.getText(), idTabungan)){
                 lNamaTabungan.setVisible(true);
                 btnEdit.setVisible(true);
                 tfNamaTabungan.setVisible(false);
-                btnNike.setVisible(false);
+                btnChecklist.setVisible(false);
                 
                 lNamaTabungan.setText(model.getNamaTabungan(idTabungan));
                 lNamaTabungan.setBounds(20, 45, getTextWidth(), 30);
                 tfNamaTabungan.setText(model.getNamaTabungan(idTabungan));
                 tfNamaTabungan.setBounds(20, 45, (getTextWidth() + 20), 30);
                 btnEdit.setBounds((getTextWidth()+20), 48, 25, 25);
-                btnNike.setBounds((getTextWidth() + 50), 48, 25, 25);
+                btnChecklist.setBounds((getTextWidth() + 50), 48, 25, 25);
             }
         });
         
-        tblCatatan.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        ListSelectionModel selectionModel = tblCatatan.getSelectionModel();
-        
+
         selectionModel.addListSelectionListener((ListSelectionEvent e) -> {
-            int column = 0;
             int row = tblCatatan.getSelectedRow();
-            String value = tblCatatan.getModel().getValueAt(row, column).toString();
-            int idSelected = Integer.parseInt(value);
-            setID(idSelected);
-            this.isSelected = true;
+            String value = tblCatatan.getModel().getValueAt(row, 0).toString();
+            int idCatatanSelected = Integer.parseInt(value);
+            setIDCatatan(idCatatanSelected);
+            this.isCatatanSelected = true;
         });
         
         btnEditCatatan.addActionListener((ActionEvent arg0) -> {
-            if(isSelected){
+            if(isCatatanSelected){
                 int row = tblCatatan.getSelectedRow();
-                String idSelected = tblCatatan.getModel().getValueAt(row, 0).toString();
-                int idSelec = Integer.parseInt(idSelected);
+                
+                String sIdSelected = tblCatatan.getModel().getValueAt(row, 0).toString();
+                int idSelected = Integer.parseInt(sIdSelected);
                 String tanggal = tblCatatan.getModel().getValueAt(row, 1).toString();
                 String tipe = tblCatatan.getModel().getValueAt(row, 2).toString();
                 String keterangam = tblCatatan.getModel().getValueAt(row, 4).toString();
@@ -229,20 +233,24 @@ public final class Catatanku extends JPanel{
                 sJumlah = sJumlah.replace("Rp ", "");
                 int jumlah = Integer.parseInt(sJumlah);
 
-                ViewFormCatatan form = new ViewFormCatatan(view, username, fullname, idTabungan, false);
-                form.setData(idSelec, tanggal, tipe, keterangam, jumlah);
+                ViewFormCatatan form = new ViewFormCatatan(view, false, idTabungan, username, fullname);
+                form.setData(idSelected, tanggal, tipe, keterangam, jumlah);
             }else{
                 view.setMessage("Tidak Ada Catatan yang Dipilih");
             }
         });
         
         btnHapusCatatan.addActionListener((ActionEvent arg0) -> {
-            if(isSelected){
-                int row = tblCatatan.getSelectedRow();
-                String idSelected = tblCatatan.getModel().getValueAt(row, 0).toString();
-                int idSelec = Integer.parseInt(idSelected);
-                ControllerCatatan controller = new ControllerCatatan(view, this);
-                controller.hapusData(idSelec, username, fullname, idTabungan);
+            if(isCatatanSelected){
+                int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus tabungan ini?");
+                if(confirm == 0){
+                    int row = tblCatatan.getSelectedRow();
+                
+                    String sIdSelected = tblCatatan.getModel().getValueAt(row, 0).toString();
+                    int idSelected = Integer.parseInt(sIdSelected);
+                    ControllerCatatan controller = new ControllerCatatan(view, this);
+                    controller.hapusData(idTabungan, idSelected, username, fullname);
+                }
             }else{
                 view.setMessage("Tidak Ada Catatan yang Dipilih");
             }
@@ -256,15 +264,16 @@ public final class Catatanku extends JPanel{
     
     public int getTextWidth(){
         int widthNamaTabungan = (int) lNamaTabungan.getPreferredSize().getWidth();
+        if(widthNamaTabungan > 300) widthNamaTabungan = 300;
         return widthNamaTabungan;
     }
     
     public void setSaldo(int saldo){
         lSaldo.setText("Saldoku : Rp " + saldo);
-        model.setSaldoTabungan(saldo, this.idTabung);
+        model.setSaldoTabungan(this.idTabungan, saldo);
     }
     
-    public void setID(int id){
-        this.id = id;
+    public void setIDCatatan(int idCatatan){
+        this.idCatatan = idCatatan;
     }
 }

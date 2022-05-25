@@ -18,13 +18,13 @@ public class Connector {
     String DBusername = "root";
     String DBpassword = "";
     
-    public Connection koneksi;
+    public Connection connection;
     public Statement statement;
     
     public Connector() {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            koneksi = (Connection) DriverManager.getConnection(DBurl,DBusername,DBpassword);
+            connection = (Connection) DriverManager.getConnection(DBurl, DBusername, DBpassword);
         }catch(Exception ex){
             System.out.println("Connection Failed\n" + ex.getMessage());
         }

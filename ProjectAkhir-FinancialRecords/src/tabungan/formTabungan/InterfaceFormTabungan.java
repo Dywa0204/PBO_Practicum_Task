@@ -10,7 +10,7 @@ package tabungan.formTabungan;
  * @author Dywa Pratama
  */
 public interface InterfaceFormTabungan {
-    static double saldoAwal = 0;
+    static final double saldoAwal = 0;
     
     public boolean insertTabungan();
 }

@@ -7,14 +7,10 @@ package component;
 
 import java.awt.Component;
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-import style.ColorDoc;
 
 /**
  *
@@ -23,7 +19,6 @@ import style.ColorDoc;
 public class TableHeaderRenderer implements TableCellRenderer {
 
     DefaultTableCellRenderer renderer;
-    JLabel lbl;
 
     public TableHeaderRenderer(JTable table) {
         renderer = (DefaultTableCellRenderer) (JLabel) table.getTableHeader().getDefaultRenderer();

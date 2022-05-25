@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package auth;
+package authentication;
 
 import tabungan.ViewTabungan;
 
@@ -11,13 +11,13 @@ import tabungan.ViewTabungan;
  *
  * @author Dywa Pratama
  */
-public class ControllerForm {
-    private final ViewForm view;
-    private final ModelForm model;
+public class ControllerFormAuthentication {
+    private final ViewFormAuthentication view;
+    private final ModelFormAuthentication model;
 
-    public ControllerForm(ViewForm view){
+    public ControllerFormAuthentication(ViewFormAuthentication view){
         this.view = view;
-        this.model = new ModelForm(view);
+        this.model = new ModelFormAuthentication(view);
     }
 
     public void proccessAuth(boolean login, String username, String password, String fullname){
@@ -30,7 +30,7 @@ public class ControllerForm {
                 if(!model.login().isEmpty()){
                     view.setMessage("Login Berhasil!");
                     view.setVisible(false);
-                    ViewTabungan dashboard = new ViewTabungan(username, model.login());
+                    ViewTabungan tabungan = new ViewTabungan(username, model.login());
                 }
             }
         }else{

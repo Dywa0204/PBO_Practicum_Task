@@ -3,23 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package auth;
+package authentication;
 
 import component.Header;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import style.FontDoc;
-import style.ColorDoc;
+import assets.FontDoc;
+import assets.ColorDoc;
 
 /**
  *
  * @author Dywa Pratama
  */
-public class ViewForm extends JFrame{
+public class ViewFormAuthentication extends JFrame{
     boolean login = true;
     
     ColorDoc color = new ColorDoc();
@@ -41,7 +40,7 @@ public class ViewForm extends JFrame{
     JLabel lAsk = new JLabel("Belum punya akun?");
     JButton btnChange = new JButton(" Register Sekarang");
     
-    public ViewForm(){
+    public ViewFormAuthentication(){
         setTitle("Financial Records");
         setSize(315, 385);
         setLayout(null);
@@ -103,8 +102,9 @@ public class ViewForm extends JFrame{
         btnChange.setForeground(color.btnSubmit);
         btnChange.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        ControllerForm controller = new ControllerForm(this);
+        
         btnSubmit.addActionListener((ActionEvent arg0) -> {
+            ControllerFormAuthentication controller = new ControllerFormAuthentication(this);
             controller.proccessAuth(login, getUsername(), getPassword(), getFullname());
         });
         

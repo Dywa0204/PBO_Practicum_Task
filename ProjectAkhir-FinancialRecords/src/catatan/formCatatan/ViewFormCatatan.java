@@ -16,15 +16,15 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import style.ColorDoc;
-import style.FontDoc;
+import assets.ColorDoc;
+import assets.FontDoc;
 
 /**
  *
  * @author Dywa Pratama
  */
 public class ViewFormCatatan extends JFrame{
-    int id = 0;
+    int idCatatan = 0;
     ColorDoc color = new ColorDoc();
     FontDoc font = new FontDoc();
     
@@ -33,8 +33,8 @@ public class ViewFormCatatan extends JFrame{
     JLabel lTitle = new JLabel("TAMBAH CATATAN BARU");
     
     JLabel lTanggal = new JLabel("Tanggal");
-    JLabel tfTanggal = new JLabel();
-    Image imageDate = new ImageIcon(this.getClass().getResource("date.png")).getImage();
+    JLabel lSelectedTanggal = new JLabel();
+    Image imageDate = new ImageIcon(this.getClass().getResource("../../assets/images/date.png")).getImage();
     JButton btnTanggal = new JButton(new ImageIcon(imageDate));
     
     JLabel lTipe = new JLabel("Tipe");
@@ -49,7 +49,7 @@ public class ViewFormCatatan extends JFrame{
     JButton btnSubmit = new JButton("SUBMIT");
     JButton btnCancel = new JButton("BATAL");
     
-    public ViewFormCatatan(ViewCatatan view, String username, String fullname, int idTabungan, boolean tambah){
+    public ViewFormCatatan(ViewCatatan view, boolean tambah, int idTabungan, String username, String fullname){
         setTitle("Financial Records");
         setSize(435, 480);
         setLayout(null);
@@ -59,11 +59,9 @@ public class ViewFormCatatan extends JFrame{
         getContentPane().setBackground(color.background);
         
         add(header);
-        header.setTitleBounds(420);
-        
         add(lTitle);
         add(lTanggal);
-        add(tfTanggal);
+        add(lSelectedTanggal);
         add(btnTanggal);
         add(lTipe);
         add(cbTipe);
@@ -74,21 +72,23 @@ public class ViewFormCatatan extends JFrame{
         add(btnSubmit);
         add(btnCancel);
         
+        header.setTitleBounds(420);
+        
         lTitle.setBounds(0, 110, 420, 24);
         lTitle.setFont(font.inter.deriveFont(Font.BOLD, 20f));
         lTitle.setHorizontalAlignment(SwingConstants.CENTER);
         
         lTanggal.setBounds(30, 150, 200, 15);
         lTanggal.setFont(font.inter.deriveFont(Font.BOLD, 12f));
-        lTipe.setBounds(220, 150, 200, 15);
-        lTipe.setFont(font.inter.deriveFont(Font.BOLD, 12f));
-        
-        tfTanggal.setBounds(30, 170, 140, 30);
-        tfTanggal.setBorder(new EmptyBorder(0, 10, 0, 10));
-        tfTanggal.setBackground(Color.white);
-        tfTanggal.setOpaque(true);
+        lSelectedTanggal.setBounds(30, 170, 140, 30);
+        lSelectedTanggal.setBorder(new EmptyBorder(0, 10, 0, 10));
+        lSelectedTanggal.setBackground(Color.white);
+        lSelectedTanggal.setOpaque(true);
         btnTanggal.setBounds(170, 170, 30, 30);
         btnTanggal.setBorder(new EmptyBorder(0, 0, 0, 0));
+        
+        lTipe.setBounds(220, 150, 200, 15);
+        lTipe.setFont(font.inter.deriveFont(Font.BOLD, 12f));
         cbTipe.setBounds(220, 170, 170, 30);
         cbTipe.setBorder(new EmptyBorder(0, 0, 0, 0));
         cbTipe.setBackground(Color.white);
@@ -102,10 +102,6 @@ public class ViewFormCatatan extends JFrame{
         lKet.setFont(font.inter.deriveFont(Font.BOLD, 12f));
         tfKet.setBounds(30, 302, 360, 30);
         tfKet.setBorder(new EmptyBorder(0, 10, 0, 10));
-        
-        btnTanggal.addActionListener((ActionEvent arg0) -> {
-            tfTanggal.setText(new DatePicker(this).setPickedDate());
-        });
         
         btnSubmit.setBounds(30, 362, 170, 40);
         btnSubmit.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -121,20 +117,26 @@ public class ViewFormCatatan extends JFrame{
         btnCancel.setForeground(color.textWhite);
         btnCancel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        ControllerFormCatatan form = new ControllerFormCatatan(this);
+        btnTanggal.addActionListener((ActionEvent arg0) -> {
+            lSelectedTanggal.setText(new DatePicker(this).setPickedDate());
+        });
+
         btnSubmit.addActionListener((ActionEvent arg0) -> {
-            try{
-                String selected = cbTipe.getItemAt(cbTipe.getSelectedIndex());
+             ControllerFormCatatan form = new ControllerFormCatatan(this);
+             try{
+                String tanggal = lSelectedTanggal.getText();
+                String tipeSelected = cbTipe.getItemAt(cbTipe.getSelectedIndex());
                 int jumlah = Integer.parseInt(tfJumlah.getText());
-                
-                form.processData(tfTanggal.getText(), selected, tfKet.getText(), jumlah, idTabungan, tambah, this.id);
-                
-                view.setVisible(false);
-                ViewCatatan newView = new ViewCatatan(username, fullname, idTabungan);
-                SwingUtilities.updateComponentTreeUI(newView);
-                setVisible(false);
+                String keterangan = tfKet.getText();
+
+                if(form.processData(tambah, idTabungan, this.idCatatan, tanggal, tipeSelected, keterangan, jumlah)){
+                    view.setVisible(false);
+                    ViewCatatan newView = new ViewCatatan(idTabungan, username, fullname);
+                    SwingUtilities.updateComponentTreeUI(newView);
+                    setVisible(false);
+                }  
             }catch(NumberFormatException ex){
-                setMessage("Input Nomor salah");
+                setMessage("Jumlah Harus Angka!");
             }
         });
         
@@ -147,9 +149,9 @@ public class ViewFormCatatan extends JFrame{
         JOptionPane.showMessageDialog(null, Message);
     }
     
-    public void setData(int id, String tanggal, String tipe, String ket, int jumlah){
-        this.id = id;
-        tfTanggal.setText(tanggal);
+    public void setData(int idCatatan, String tanggal, String tipe, String ket, int jumlah){
+        this.idCatatan = idCatatan;
+        lSelectedTanggal.setText(tanggal);
         int index = 0;
         if(tipe.equals("Pemasukan")) index = 0;
         else index = 1;

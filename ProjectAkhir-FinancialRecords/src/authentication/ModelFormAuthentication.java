@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package auth;
+package authentication;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,12 +13,12 @@ import jdbc.Connector;
  *
  * @author Dywa Pratama
  */
-public class ModelForm {
+public class ModelFormAuthentication {
     private String username, password, fullname;
     Connector connector = new Connector();
-    private final ViewForm view;
+    private final ViewFormAuthentication view;
     
-    public ModelForm(ViewForm view){
+    public ModelFormAuthentication(ViewFormAuthentication view){
         this.view = view;
     }
     
@@ -47,7 +47,7 @@ public class ModelForm {
         try {
             String query = "SELECT `password`, `fullname` FROM `user` WHERE `username` = '" + this.username + "'";
             
-            connector.statement = connector.koneksi.createStatement();
+            connector.statement = connector.connection.createStatement();
             ResultSet resultSet = connector.statement.executeQuery(query);
             
             if(resultSet.next()){
@@ -72,7 +72,7 @@ public class ModelForm {
             String query = "INSERT INTO `user` (`username`, `password`, `fullname`) VALUES "
                     + "('" + this.username + "', '" + this.password + "', '" + this.fullname + "')";
             
-            connector.statement = connector.koneksi.createStatement();
+            connector.statement = connector.connection.createStatement();
             connector.statement.executeUpdate(query);
             
             temp = true;

@@ -7,8 +7,8 @@ package tabungan;
 
 import component.Header;
 import javax.swing.*;
-import style.ColorDoc;
-import style.FontDoc;
+import assets.ColorDoc;
+import assets.FontDoc;
 
 /**
  *
@@ -23,7 +23,7 @@ public class ViewTabungan extends JFrame{
     Tabunganku pTabungan;
     
     public ViewTabungan(String username, String fullname){
-        this.pTabungan = new Tabunganku(this, username, fullname);
+        pTabungan = new Tabunganku(this, username, fullname);
         
         setTitle("Financial Records");
         setSize(715, 635);
@@ -38,7 +38,6 @@ public class ViewTabungan extends JFrame{
         add(pTabungan);
         
         header.setPositionX();
-        
         header.setFullname(fullname);
         header.setViewDashboard(this);
     }

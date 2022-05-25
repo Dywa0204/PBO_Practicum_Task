@@ -10,8 +10,8 @@ package tabungan.formTabungan;
  * @author Dywa Pratama
  */
 public class ControllerFormTabungan {
-    private ViewFormTabungan view;
-    private ModelFormTabungan model;
+    private final ViewFormTabungan view;
+    private final ModelFormTabungan model;
     
     public ControllerFormTabungan(ViewFormTabungan view){
         this.view = view;
@@ -23,7 +23,7 @@ public class ControllerFormTabungan {
         if(nama.equals("")){
             view.setMessage("Nama Tabungan Tidak Boleh Kosong");
         }else{
-            model.setName(nama);
+            model.setNamaTabungan(nama);
             model.setUsername(username);
             if(model.insertTabungan()) temp = true;
         }

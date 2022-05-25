@@ -25,16 +25,14 @@ public class ControllerCatatan {
         }else{
             model.setNamaTabungan(nama);
             model.setIdTabungan(idTabungan);
-            if(model.updateNamaTabungan()){
-                temp = true;
-            }
+            if(model.updateNamaTabungan()) temp = true;
         }
         return temp;
     }
     
-    public void hapusData(int id, String username, String fullname, int idTabungan){
-        model.hapusCatatan(id);
+    public void hapusData(int idTabungan, int idCatatan, String username, String fullname){
+        model.hapusCatatan(idCatatan);
         view.setVisible(false);
-        ViewCatatan viewBaru = new ViewCatatan(username, fullname, idTabungan);
+        ViewCatatan viewBaru = new ViewCatatan(idTabungan, username, fullname);
     }
 }

@@ -7,8 +7,8 @@ package catatan;
 
 import component.Header;
 import javax.swing.*;
-import style.ColorDoc;
-import style.FontDoc;
+import assets.ColorDoc;
+import assets.FontDoc;
 
 /**
  *
@@ -22,8 +22,8 @@ public class ViewCatatan extends JFrame{
     
     Catatanku pCatatanku;
     
-    public ViewCatatan(String username, String fullname, int idTabungan){
-        this.pCatatanku = new Catatanku(this, username, fullname, idTabungan);
+    public ViewCatatan(int idTabungan, String username, String fullname){
+        pCatatanku = new Catatanku(this, idTabungan, username, fullname);
         
         setTitle("Financial Records");
         setSize(1015, 635);

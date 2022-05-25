@@ -7,7 +7,6 @@ package tabungan;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import jdbc.Connector;
 
 /**
@@ -26,7 +25,7 @@ public class ModelTabungan {
         String data[][] = new String[getJumlahData(username)][3];
         try {
             String query = "SELECT * fROM `tabungan` WHERE `username` = '" + username + "' ORDER BY `id` DESC";
-            connector.statement = connector.koneksi.createStatement();
+            connector.statement = connector.connection.createStatement();
             ResultSet resultSet = connector.statement.executeQuery(query);
             
             int p = 0;
@@ -39,15 +38,14 @@ public class ModelTabungan {
         }catch (SQLException ex) {
             view.setMessage("Terjadi Kesalahan Database\n" + ex.getMessage());
         }
-        
         return data;
     }
     
     public int getJumlahData(String username){
         int jumlah = 0;
         try {
-            String query = "SELECT COUNT(*) as `jumlah` FROM `tabungan` WHERE `username` = '" + username + "'";
-            connector.statement = connector.koneksi.createStatement();
+            String query = "SELECT COUNT(*) AS `jumlah` FROM `tabungan` WHERE `username` = '" + username + "'";
+            connector.statement = connector.connection.createStatement();
             ResultSet resultSet = connector.statement.executeQuery(query);
             
             if(resultSet.next()){

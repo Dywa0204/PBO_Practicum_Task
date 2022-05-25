@@ -5,19 +5,14 @@
  */
 package main;
 
-import auth.ViewForm;
-import catatan.ViewCatatan;
-import tabungan.ViewTabungan;
+import authentication.ViewFormAuthentication;
 
 /**
  *
  * @author Dywa Pratama
  */
 public class Main {
-
     public static void main(String[] args) {
-        ViewForm view = new ViewForm();
-        //ViewDashboard dashboard = new ViewDashboard("admin", "Ini User Satu");
-        //ViewCatatan catatan = new ViewCatatan("admin", "Ini User Satu", 37);
+        ViewFormAuthentication view = new ViewFormAuthentication();
     }
 }

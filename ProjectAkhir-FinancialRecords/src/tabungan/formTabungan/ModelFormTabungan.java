@@ -13,9 +13,10 @@ import jdbc.Connector;
  * @author Dywa Pratama
  */
 public class ModelFormTabungan implements InterfaceFormTabungan{
-    private String username, name;
-    Connector connector = new Connector();
+    private String username, namaTabungan;
     private final ViewFormTabungan view;
+    Connector connector = new Connector();
+    
     
     public ModelFormTabungan(ViewFormTabungan view){
         this.view = view;
@@ -25,8 +26,8 @@ public class ModelFormTabungan implements InterfaceFormTabungan{
         this.username = username;
     }
     
-    public void setName(String name) {
-        this.name = name;
+    public void setNamaTabungan(String name) {
+        this.namaTabungan = name;
     }
     
     @Override
@@ -34,14 +35,14 @@ public class ModelFormTabungan implements InterfaceFormTabungan{
         boolean temp = false;
         try {
             String query = "INSERT INTO `tabungan` (`id`, `name`, `saldo`, `username`) VALUES "
-                    + "(NULL, '" + this.name + "', " + saldoAwal + ",'" + this.username + "');";
+                    + "(NULL, '" + this.namaTabungan + "', " + saldoAwal + ",'" + this.username + "');";
             
-            connector.statement = connector.koneksi.createStatement();
+            connector.statement = connector.connection.createStatement();
             connector.statement.executeUpdate(query);
             temp = true;
         } catch (SQLException ex) {
             if(ex.getMessage().contains("Duplicate"))
-                view.setMessage("Tabungan " + this.name + " Sudah Ada");
+                view.setMessage("Tabungan " + this.namaTabungan + " Sudah Ada");
             else
                 view.setMessage("Terjadi Kesalahan Database\n" + ex.getMessage());
         }

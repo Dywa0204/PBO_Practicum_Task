@@ -6,17 +6,14 @@
 package tabungan.formTabungan;
 
 import component.Header;
-import tabungan.Tabunganku;
 import tabungan.ViewTabungan;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import style.ColorDoc;
-import style.FontDoc;
+import assets.ColorDoc;
+import assets.FontDoc;
 
 /**
  *
@@ -46,13 +43,13 @@ public class ViewFormTabungan extends JFrame{
         getContentPane().setBackground(color.background);
         
         add(header);
-        header.setTitleBounds(320);
-        
         add(lTitle);
         add(lName);
         add(tfName);
         add(btnSubmit);
         add(btnCancel);
+        
+        header.setTitleBounds(320);
         
         lTitle.setBounds(0, 110, 320, 24);
         lTitle.setFont(font.inter.deriveFont(Font.BOLD, 20f));
@@ -78,9 +75,9 @@ public class ViewFormTabungan extends JFrame{
         btnCancel.setForeground(color.textWhite);
         btnCancel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        ControllerFormTabungan form = new ControllerFormTabungan(this);
         btnSubmit.addActionListener((ActionEvent arg0) -> {
-            if(form.processData(username, getNama())){
+            ControllerFormTabungan form = new ControllerFormTabungan(this);
+            if(form.processData(username, getNamaTabungan())){
                 view.setVisible(false);
                 ViewTabungan newView = new ViewTabungan(username, fullname);
                 SwingUtilities.updateComponentTreeUI(newView);
@@ -90,11 +87,10 @@ public class ViewFormTabungan extends JFrame{
         
         btnCancel.addActionListener((ActionEvent arg0) -> {
             setVisible(false);
-            
         });
     }
     
-    String getNama(){
+    String getNamaTabungan(){
         return tfName.getText();
     }
     

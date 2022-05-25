@@ -5,7 +5,7 @@
  */
 package component;
 
-import auth.ViewForm;
+import authentication.ViewFormAuthentication;
 import catatan.ViewCatatan;
 import tabungan.ViewTabungan;
 import java.awt.Cursor;
@@ -14,8 +14,8 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import style.ColorDoc;
-import style.FontDoc;
+import assets.ColorDoc;
+import assets.FontDoc;
 
 /**
  *
@@ -31,12 +31,12 @@ public class Header extends JPanel{
     
     JLabel lTitle = new JLabel("FINANCE");
     
-    Image image = new ImageIcon(this.getClass().getResource("logout.png")).getImage();
+    Image image = new ImageIcon(this.getClass().getResource("../assets/images/logout.png")).getImage();
     
     JLabel lFullname = new JLabel();
     JButton btnLogout = new JButton();
     
-    public Header(String is){
+    public Header(String head){
         setBackground(color.header);
         setBounds(0, 0, 1000, 80);
         setLayout(null);
@@ -61,12 +61,12 @@ public class Header extends JPanel{
         btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         btnLogout.addActionListener((ActionEvent arg0) -> {
-            ViewForm form = new ViewForm();
+            ViewFormAuthentication form = new ViewFormAuthentication();
             if(this.currentView.equals("dashboard")) dashboard.setVisible(false);
             else catatan.setVisible(false);
         });
         
-        if(is.equals("min")){
+        if(head.equals("min")){
             lTitle.setBounds(0, 0, 300, 80);
             lTitle.setHorizontalAlignment(SwingConstants.CENTER);
         }
